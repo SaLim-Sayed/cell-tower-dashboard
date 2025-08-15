@@ -67,3 +67,76 @@ export default tseslint.config([
   },
 ])
 ```
+
+
+
+cell-tower-dashboard/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── components/
+│   │   ├── Dashboard/
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── Dashboard.scss
+│   │   │   └── Dashboard.test.tsx
+│   │   ├── Header/
+│   │   │   ├── Header.tsx
+│   │   │   ├── Header.scss
+│   │   │   └── Header.test.tsx
+│   │   ├── SummaryCards/
+│   │   │   ├── SummaryCards.tsx
+│   │   │   ├── SummaryCards.scss
+│   │   │   └── SummaryCards.test.tsx
+│   │   ├── Filters/
+│   │   │   ├── Filters.tsx
+│   │   │   ├── Filters.scss
+│   │   │   └── Filters.test.tsx
+│   │   ├── DataTable/
+│   │   │   ├── DataTable.tsx
+│   │   │   ├── DataTable.scss
+│   │   │   └── DataTable.test.tsx
+│   │   ├── Charts/
+│   │   │   ├── BarChart/
+│   │   │   │   ├── BarChart.tsx
+│   │   │   │   ├── BarChart.scss
+│   │   │   │   └── BarChart.test.tsx
+│   │   │   └── PieChart/
+│   │   │       ├── PieChart.tsx
+│   │   │       ├── PieChart.scss
+│   │   │       └── PieChart.test.tsx
+│   │   └── common/
+│   │       ├── LoadingSpinner/
+│   │       └── ErrorBoundary/
+│   ├── hooks/
+│   │   ├── useDashboardData.ts
+│   │   ├── useDashboardData.test.ts
+│   │   ├── useFilters.ts
+│   │   └── useFilters.test.ts
+│   ├── services/
+│   │   ├── dataService.ts
+│   │   └── dataService.test.ts
+│   ├── types/
+│   │   ├── index.ts
+│   │   └── dashboard.types.ts
+│   ├── utils/
+│   │   ├── chartHelpers.ts
+│   │   ├── dataHelpers.ts
+│   │   └── constants.ts
+│   ├── styles/
+│   │   ├── variables.scss
+│   │   ├── mixins.scss
+│   │   ├── globals.scss
+│   │   └── responsive.scss
+│   ├── data/
+│   │   └── mockData.ts
+│   ├── App.tsx
+│   ├── App.scss
+│   ├── index.tsx
+│   └── setupTests.ts
+├── package.json
+├── tsconfig.json
+├── jest.config.js
+├── .gitignore
+└── README.md
+
