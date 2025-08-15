@@ -1,0 +1,53 @@
+{
+  "name": "cell-tower-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Professional Cell Tower Dashboard for telecom operations monitoring",
+  "author": "Your Name",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write src/**/*.{ts,tsx,scss}",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "d3": "^7.8.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.69.5"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.scss": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
