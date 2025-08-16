@@ -98,7 +98,7 @@
     }
 
     &:nth-child(even) {
-      background-color: #e8f8fc;
+      background-color: #f2fafc;
     }
     &.clickable {
       cursor: pointer;
@@ -276,9 +276,7 @@
     }
   }
 
-  &--stack {
-    // Will show stacked view on mobile via JS
-  }
+ 
 
   // Tablet responsive adjustments
   @media (max-width: 1024px) {

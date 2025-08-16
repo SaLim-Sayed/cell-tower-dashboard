@@ -4,7 +4,7 @@
 @import '../../styles/mixins';
 
 .header {
-  background: linear-gradient(90deg, #9bbbe0, #edf4fc); // Blue gradient
+  background: linear-gradient(180deg, #9bbbe0, #edf4fc); // Blue gradient
   border-bottom: 1px solid map.get($colors, border);
   box-shadow: map.get($shadows, sm);
   position: sticky;
