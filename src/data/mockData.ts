@@ -62,10 +62,10 @@ export const MOCK_TOWERS: CellTower[] = [
   },
   {
     id: 'tower-008',
-    name: 'Hurghada Marina Hub',
-    city: 'Hurghada',
+    name: 'Alexandria Marina Hub',
+    city: 'Alexandria',
     networkType: '4G',
-    status: 'active',
+    status: 'offline',
     signalStrength: 3
   },
   {

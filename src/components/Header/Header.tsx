@@ -1,14 +1,20 @@
 // src/components/Header/Header.tsx
 import React, { memo } from 'react';
- import './Header.scss';
+import './Header.scss';
 import type { BaseComponentProps } from '../../types/dashboard.types';
-
+import logo from '../../../public/antenna.svg';
 interface HeaderProps extends BaseComponentProps {
   title?: string;
+  totalTowers?: number;
+  activeTowers?: number;
+  avgSignal?: string | number;
 }
 
 const Header: React.FC<HeaderProps> = memo(({ 
   title = "Cell Tower Dashboard",
+  totalTowers = 0,
+  activeTowers = 0,
+  avgSignal = 0,
   className = '',
   testId = 'dashboard-header'
 }) => {
@@ -21,45 +27,30 @@ const Header: React.FC<HeaderProps> = memo(({
         <div className="header__content">
           <div className="header__brand">
             <div className="header__logo">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M12 8v8M8 12h8"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {/* svg logo */}
+              <img src={logo} alt="" />
             </div>
             <h1 className="header__title">{title}</h1>
           </div>
           
-          <nav className="header__nav" role="navigation" aria-label="Main navigation">
-            <div className="header__status">
-              <span className="header__status-indicator header__status-indicator--online" />
-              <span className="header__status-text">System Online</span>
+          <div className="header__summary">
+            <div className="summary-card">
+              <span className="summary-card__label">Total</span>
+              <span className="summary-card__value">{totalTowers}</span>
             </div>
-          </nav>
+            <div className="summary-card">
+              <span className="summary-card__label">Active</span>
+              <span className="summary-card__value">{activeTowers}</span>
+            </div>
+            <div className="summary-card">
+              <span className="summary-card__label">Signal</span>
+              <span className="summary-card__value">{avgSignal}/5</span>
+            </div>
+          </div>
         </div>
       </div>
     </header>
   );
 });
-
-Header.displayName = 'Header';
 
 export default Header;

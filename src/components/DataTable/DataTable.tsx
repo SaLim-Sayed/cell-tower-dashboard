@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useMemo } from 'react';
 import './DataTable.scss';
+import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 export interface Column<T> {
   header: string;
   accessor: keyof T | ((row: T) => React.ReactNode);
   sortable?: boolean;
+  sortKey?: keyof T;
   width?: string | number;
   align?: 'left' | 'center' | 'right';
   priority?: 'high' | 'medium' | 'low'; // For responsive column hiding
   mobileLabel?: string; // Custom label for mobile stacked view
+  render?: (row: T) => React.ReactNode; // optional custom rendering
+
 }
 
 interface DataTableProps<T> {
@@ -46,11 +51,9 @@ const DataTable = <T extends Record<string, any>>({
   const [selectedRows, setSelectedRows] = useState<Set<any>>(new Set());
   const [isMobileView, setIsMobileView] = useState(false);
 
-  // Handle responsive column filtering
   const visibleColumns = useMemo(() => {
     if (responsive !== 'adaptive') return columns;
-    
-    // For adaptive mode, show high priority columns on mobile
+
     return columns.filter(col => {
       if (!isMobileView) return true;
       return !col.priority || col.priority === 'high';
@@ -90,19 +93,20 @@ const DataTable = <T extends Record<string, any>>({
     }));
   };
 
+
   const handleRowSelect = (e: React.ChangeEvent<HTMLInputElement>, row: T) => {
     e.stopPropagation();
     const newSelectedRows = new Set(selectedRows);
     const rowKey = row[keyField];
-    
+
     if (e.target.checked) {
       newSelectedRows.add(rowKey);
     } else {
       newSelectedRows.delete(rowKey);
     }
-    
+
     setSelectedRows(newSelectedRows);
-    
+
     if (onSelectionChange) {
       const selectedData = data.filter((item) =>
         newSelectedRows.has(item[keyField])
@@ -115,9 +119,9 @@ const DataTable = <T extends Record<string, any>>({
     const newSelectedRows = e.target.checked
       ? new Set(paginatedData.map((row) => row[keyField]))
       : new Set();
-      
+
     setSelectedRows(newSelectedRows);
-    
+
     if (onSelectionChange) {
       const selectedData = e.target.checked ? [...paginatedData] : [];
       onSelectionChange(selectedData);
@@ -125,6 +129,9 @@ const DataTable = <T extends Record<string, any>>({
   };
 
   const renderCellContent = (row: T, column: Column<T>) => {
+    if (column.render) {
+      return column.render(row);
+    }
     if (typeof column.accessor === 'function') {
       return column.accessor(row);
     }
@@ -156,7 +163,7 @@ const DataTable = <T extends Record<string, any>>({
                 {column.mobileLabel || column.header}
               </div>
               <div className="data-table__card-value">
-                {renderCellContent(row, column)}
+                {column.render ? column.render(row) : renderCellContent(row, column)}
               </div>
             </div>
           ))}
@@ -220,32 +227,34 @@ const DataTable = <T extends Record<string, any>>({
                     />
                   </th>
                 )}
-                {visibleColumns.map((column) => (
-                  <th
-                    key={column.header}
-                    style={{
-                      width: column.width,
-                      textAlign: column.align || 'left',
-                    }}
-                    className={`${column.sortable ? 'sortable' : ''} ${
-                      sortConfig.key === column.accessor ? `sorted-${sortConfig.direction}` : ''
-                    }`}
-                    onClick={() =>
-                      column.sortable && handleSort(column.accessor as keyof T)
-                    }
-                  >
-                    {column.header}
-                    {column.sortable && (
-                      <span className="sort-icon">
-                        {sortConfig.key === column.accessor
-                          ? sortConfig.direction === 'asc'
-                            ? '↑'
-                            : '↓'
-                          : '↕'}
-                      </span>
-                    )}
-                  </th>
-                ))}
+                {visibleColumns.map((column) => {
+                  const sortKey = column.sortKey || (typeof column.accessor === "string" ? column.accessor : null);
+
+                  return (
+                    <th
+                      key={column.header}
+                      style={{
+                        width: column.width,
+                        textAlign: column.align || "left",
+                      }}
+                      className={`${column.sortable ? "sortable" : ""} ${sortConfig.key === sortKey ? `sorted-${sortConfig.direction}` : ""
+                        }`}
+                      onClick={() => column.sortable && sortKey && handleSort(sortKey)}
+                    >
+                      {column.header}
+                      {column.sortable && (
+                        <span className="sort-icon">
+                          {sortConfig.key === sortKey ? (
+                            sortConfig.direction === "asc" ? <FaSortUp   /> : <FaSortDown style={{ transform: "rotate(180deg)" }} />
+                          ) : (
+                            <FaSort />
+                          )}
+                        </span>
+                      )}
+                    </th>
+                  );
+                })}
+
               </tr>
             </thead>
             <tbody>
@@ -280,7 +289,7 @@ const DataTable = <T extends Record<string, any>>({
           </table>
         </div>
       )}
-      
+
       {totalPages > 1 && (
         <div className="pagination">
           <button

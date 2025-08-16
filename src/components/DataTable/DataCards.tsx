@@ -11,10 +11,24 @@ interface DataCardsProps {
 
 const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortModalOpen, setSortModalOpen] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: keyof CellTower; direction: "asc" | "desc" } | null>(null);
 
-  const totalPages = Math.ceil(data.length / pageSize);
+  // Apply sorting
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig) return [...data];
+    return [...data].sort((a, b) => {
+      const valA = a[sortConfig.key];
+      const valB = b[sortConfig.key];
+      if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [data, sortConfig]);
+
+  const totalPages = Math.ceil(sortedData.length / pageSize);
   const startIdx = (currentPage - 1) * pageSize;
-  const currentData = data.slice(startIdx, startIdx + pageSize);
+  const currentData = sortedData.slice(startIdx, startIdx + pageSize);
 
   if (data.length === 0) {
     return <div className="data-cards__empty">No data available</div>;
@@ -22,6 +36,64 @@ const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }
 
   return (
     <div>
+      {/* Sort Button */}
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+        <button onClick={() => setSortModalOpen(true)}>Sort</button>
+      </div>
+
+      {/* Modal */}
+      {sortModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Sort Options</h3>
+            <select
+              onChange={(e) =>
+                setSortConfig((prev) => ({
+                  key: e.target.value as keyof CellTower,
+                  direction: prev?.direction || "asc",
+                }))
+              }
+              value={sortConfig?.key || ""}
+            >
+              <option value="">-- Select Field --</option>
+              <option value="name">Name</option>
+              <option value="city">City</option>
+              <option value="networkType">Network Type</option>
+              <option value="signalStrength">Signal Strength</option>
+              <option value="status">Status</option>
+            </select>
+
+            <div style={{ marginTop: "0.5rem" }}>
+              <button
+                onClick={() =>
+                  setSortConfig((prev) =>
+                    prev ? { ...prev, direction: "asc" } : { key: "name", direction: "asc" }
+                  )
+                }
+                className={sortConfig?.direction === "asc" ? "active" : ""}
+              >
+                Ascending
+              </button>
+              <button
+                onClick={() =>
+                  setSortConfig((prev) =>
+                    prev ? { ...prev, direction: "desc" } : { key: "name", direction: "desc" }
+                  )
+                }
+                className={sortConfig?.direction === "desc" ? "active" : ""}
+              >
+                Descending
+              </button>
+            </div>
+
+            <div style={{ marginTop: "1rem" }}>
+              <button onClick={() => setSortModalOpen(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Data Cards */}
       <div className="data-cards">
         {currentData.map((tower) => (
           <div
@@ -31,21 +103,21 @@ const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }
           >
             <div className="card-header">
               <h3>{tower.name}</h3>
-              <span className={`badge ${tower.status.toLowerCase()}`}>
+              <span className={`dashboard__status dashboard__status--${tower.status.toLowerCase()}`}>
                 {tower.status}
               </span>
             </div>
 
             <div className="card-body">
-              <p>
+              <div className="card-field">
                 <strong>City</strong>
-                {tower.city}
-              </p>
-              <p>
+                <span>{tower.city}</span>
+              </div>
+              <div className="card-field">
                 <strong>Network Type</strong>
-                {tower.networkType}
-              </p>
-              <p>
+                <span>{tower.networkType}</span>
+              </div>
+              <div className="card-field flex items-center gap-2">
                 <strong>Signal Strength</strong>
                 <StarRatings
                   rating={tower.signalStrength}
@@ -55,7 +127,7 @@ const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }
                   starSpacing="2px"
                   name={`signal-${tower.id}`}
                 />
-              </p>
+              </div>
             </div>
           </div>
         ))}

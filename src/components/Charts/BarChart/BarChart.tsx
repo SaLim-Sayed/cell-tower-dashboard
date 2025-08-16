@@ -203,7 +203,6 @@ const BarChart: React.FC<BarChartProps> = memo(({
         role="img"
         aria-label="Bar chart showing tower count by city"
       >
-        {/* Accessibility description */}
         <desc>
           Bar chart displaying the number of cell towers in each city: {
             data.map(d => `${d.city}: ${d.count}`).join(', ')

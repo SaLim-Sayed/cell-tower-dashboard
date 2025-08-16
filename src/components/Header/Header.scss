@@ -8,31 +8,50 @@
   border-bottom: 1px solid map.get($colors, border);
   box-shadow: map.get($shadows, sm);
   position: sticky;
+  width: 100%;
+  flex: 1;
   top: 0;
   z-index: map.get($z-index, sticky);
   
   &__content {
     @include flex-between;
     padding: map.get($spacing, 4) 0;
+    align-items: center;
+    width: 100%;
+    
+    flex-wrap: wrap;
+    gap: map.get($spacing, 3);
     
     @include respond-to(tablet) {
       padding: map.get($spacing, 5) 0;
+      flex-wrap: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: map.get($spacing, 4);
     }
   }
   
   &__brand {
     @include flex-center;
     gap: map.get($spacing, 3);
+    flex-shrink: 0;
   }
   
   &__logo {
     @include flex-center;
     width: 40px;
     height: 40px;
-    background-color: map.get($colors, primary);
-    border-radius: map.get($border-radius, lg);
+     border-radius: map.get($border-radius, lg);
     color: map.get($colors, text-inverse);
     flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      width: 32px;
+      height: 32px;
+    }
   }
   
   &__title {
@@ -46,7 +65,76 @@
     }
     
     @media (max-width: 480px) {
+      font-size: map.get($font-sizes, lg);
+    }
+
+    @media (max-width: 360px) {
       display: none;
+    }
+  }
+
+  &__summary {
+    display: flex;
+    gap: map.get($spacing, 3);
+    margin-left: auto;
+    
+    @media (max-width: 640px) {
+      margin-left: 0;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 480px) {
+      gap: map.get($spacing, 2);
+    }
+  }
+}
+
+.summary-card {
+  background: map.get($colors, surface-secondary, #f8f9fa);
+  padding: map.get($spacing, 3) map.get($spacing, 4);
+  border-radius: map.get($border-radius, md);
+  text-align: center;
+  min-width: 100px;
+  box-shadow: map.get($shadows, sm, 0 1px 3px rgba(0,0,0,0.1));
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: map.get($shadows, md, 0 4px 6px rgba(0,0,0,0.1));
+  }
+
+  @media (max-width: 640px) {
+    flex: 1;
+    min-width: unset;
+    padding: map.get($spacing, 2) map.get($spacing, 3);
+  }
+
+  @media (max-width: 480px) {
+    padding: map.get($spacing, 2);
+  }
+
+  &__label {
+    display: block;
+    font-size: map.get($font-sizes, sm, 0.8rem);
+    color: map.get($colors, text-secondary, #666);
+    margin-bottom: map.get($spacing, 1, 0.25rem);
+    font-weight: map.get($font-weights, medium, 500);
+
+    @media (max-width: 480px) {
+      font-size: 0.7rem;
+    }
+  }
+
+  &__value {
+    display: block;
+    font-size: map.get($font-sizes, xl, 1.2rem);
+    font-weight: map.get($font-weights, bold);
+    color: map.get($colors, text-primary, #222);
+    line-height: 1.2;
+
+    @media (max-width: 480px) {
+      font-size: map.get($font-sizes, lg, 1rem);
     }
   }
 }

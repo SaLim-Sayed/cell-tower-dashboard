@@ -25,6 +25,7 @@ body {
   color: map.get($colors, text-primary);
   background-color: map.get($colors, background);
   min-height: 100vh;
+  width: 100%;
 }
 
 // Typography Scale
