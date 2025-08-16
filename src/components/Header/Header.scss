@@ -15,7 +15,7 @@
   
   &__content {
     @include flex-between;
-    padding: map.get($spacing, 4) 0;
+    padding: map.get($spacing, 2) 0;
     align-items: center;
     margin: 0 ;
     width: 100%;
@@ -24,7 +24,7 @@
     gap: map.get($spacing, 3);
     
     @include respond-to(tablet) {
-      padding: map.get($spacing, 5) 0;
+      padding: map.get($spacing, 2) 0;
       flex-wrap: nowrap;
     }
 

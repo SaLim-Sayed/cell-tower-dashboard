@@ -304,8 +304,7 @@
     }
   }
   
-  // High contrast mode
-  @media (prefers-contrast: high) {
+   @media (prefers-contrast: high) {
     &__container {
       border: 2px solid map.get($colors, text-primary, #000000);
     }
@@ -335,25 +334,11 @@
     }
   }
   
-  // Dark mode support (if you have dark mode variables)
-  @media (prefers-color-scheme: dark) {
-    &__container {
-      background: map.get($colors, surface-dark, #1f2937);
-      border-color: map.get($colors, border-dark, #374151);
-    }
-    
-    &__header h3 {
-      color: map.get($colors, text-primary-dark, #f9fafb);
-    }
-    
-    &__header p {
-      color: map.get($colors, text-secondary-dark, #d1d5db);
-    }
-  }
+  
+ 
 }
 
-// Keyframes
-@keyframes spin {
+ @keyframes spin {
   0% {
     transform: rotate(0deg);
   }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { CellTower } from "../../types/dashboard";
+import type { CellTower } from "../../../types/dashboard";
 import StarRatings from "react-star-ratings";
 import "./DataCards.scss";
 
