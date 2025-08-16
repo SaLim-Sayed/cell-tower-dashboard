@@ -1,28 +1,30 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
+import { FaSpinner } from 'react-icons/fa';
+import { useMediaQuery } from 'react-responsive';
+import StarRatings from 'react-star-ratings';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import { useFilters } from '../../hooks/useFilters';
-import Header from '../Header/Header';
-import Filters from '../Filters/Filters';
-import DataTable, { type Column } from '../DataTable/DataTable';
+import { dataService } from '../../services/dataService';
+import type { CellTower } from '../../types/dashboard';
 import BarChart from '../Charts/BarChart/BarChart';
 import PieChart from '../Charts/PieChart/PieChart';
+import SmFilters from '../common/SmFilters/SmFilters';
 import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary';
-import { dataService } from '../../services/dataService';
-import './Dashboard.scss';
-import StarRatings from 'react-star-ratings';
-import type { CellTower } from '../../types/dashboard';
-import { useMediaQuery } from 'react-responsive';
 import DataCards from '../DataTable/DataCards';
-import { FaSpinner } from 'react-icons/fa';
+import DataTable, { type Column } from '../DataTable/DataTable';
+import Filters from '../Filters/Filters';
+import Header from '../Header/Header';
+import './Dashboard.scss';
 
 const Dashboard: React.FC = memo(() => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const { dashboardData, loading, error, refetch } = useDashboardData();
   const { filters, filteredTowers, setSearchTerm, setSelectedCity, clearFilters } = useFilters(dashboardData.towers);
-   const cities = dataService.getUniqueCities(dashboardData.towers);
-   const summary = dataService.calculateSummaryMetrics(dashboardData.towers);
+  const cities = dataService.getUniqueCities(dashboardData.towers);
+  const summary = dataService.calculateSummaryMetrics(dashboardData.towers);
 
+  const [sortConfig, setSortConfig] = useState<{ key: keyof CellTower; direction: "asc" | "desc" } | null>(null);
   const columns: Column<CellTower>[] = [
     { header: 'Name', accessor: 'name', sortable: true, sortKey: 'name' },
     { header: 'City', accessor: 'city', sortable: true, sortKey: 'city' },
@@ -56,6 +58,17 @@ const Dashboard: React.FC = memo(() => {
     },
   ];
 
+  // Apply sorting
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig) return [...filteredTowers];
+    return [...filteredTowers].sort((a, b) => {
+      const valA = a[sortConfig.key];
+      const valB = b[sortConfig.key];
+      if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [filteredTowers, sortConfig]);
 
   if (loading) {
     return (
@@ -86,7 +99,7 @@ const Dashboard: React.FC = memo(() => {
   }
   return (
     <ErrorBoundary>
-       <div className="dashboard">
+      <div className="dashboard">
         <Header
           totalTowers={summary.totalTowers}
           activeTowers={summary.activeTowers}
@@ -95,64 +108,81 @@ const Dashboard: React.FC = memo(() => {
 
         <main className="dashboard__main">
           <div className="container">
-          <div className="dashboard__charts-container">
-                  <div className="dashboard__chart">
-                    <h3 className="dashboard__chart-title">Towers by City</h3>
-                    <BarChart
-                      data={dashboardData.chartData.towersByCity}
-                      testId="towers-by-city-chart"
-                    />
-                  </div>
+            <div className="dashboard__charts-container">
+              <div className="dashboard__chart">
+                <h3 className="dashboard__chart-title">Towers by City</h3>
+                <BarChart
+                  data={dashboardData.chartData.towersByCity}
+                  testId="towers-by-city-chart"
+                />
+              </div>
 
-                  <div className="dashboard__chart">
-                    <h3 className="dashboard__chart-title">Status Distribution</h3>
-                    <PieChart
-                      data={dashboardData.chartData.statusDistribution}
-                      testId="status-distribution-chart"
-                    />
-                  </div>
-                </div>
+              <div className="dashboard__chart">
+                <h3 className="dashboard__chart-title">Status Distribution</h3>
+                <PieChart
+                  data={dashboardData.chartData.statusDistribution}
+                  testId="status-distribution-chart"
+                />
+              </div>
+            </div>
 
             <div className="dashboard__content">
-              <Filters
-                filters={filters}
-                cities={cities}
-                // @ts-ignore
-                onFiltersChange={{
-                  setSearchTerm,
-                  setSelectedCity
-                }}
-                onClearFilters={clearFilters}
-                testId="dashboard-filters"
-              />
-
-
               <div className="dashboard__data-section">
                 <div className="dashboard__table-container">
+
                   {isMobile ? (
-                    <DataCards data={filteredTowers} onRowClick={(row) => console.log('Row clicked:', row)} />
+                    <>
+                      <SmFilters
+                        data={sortedData}
+                        filters={filters}
+                        cities={cities}
+                        sortConfig={sortConfig}
+                        onFiltersChange={{
+                          setSearchTerm,
+                          setSelectedCity,
+                          setSortConfig
+                        }}
+                        onClearFilters={clearFilters}
+                        onRowClick={(row) => console.log('Row clicked:', row)}
+                        pageSize={10}
+                      />
+                      <DataCards data={sortedData} onRowClick={(row) => console.log('Row clicked:', row)} />
+                    </>
                   ) : (
-                    <DataTable
-                      columns={columns}
-                      data={filteredTowers}
-                      keyField="id"
-                      pageSize={10}
-                      selectable
-                      onRowClick={(row) => console.log('Row clicked:', row)}
-                      onSelectionChange={(selected) => console.log('Selected rows:', selected)}
-                      loading={loading}
-                    />
+                    <>
+                      <Filters
+                        filters={filters}
+                        cities={cities}
+                        // @ts-ignore
+                        onFiltersChange={{
+                          setSearchTerm,
+                          setSelectedCity
+                        }}
+                        onClearFilters={clearFilters}
+                        testId="dashboard-filters"
+                      />
+                      <DataTable
+                        columns={columns}
+                        data={filteredTowers}
+                        keyField="id"
+                        pageSize={10}
+                        selectable
+                        onRowClick={(row) => console.log('Row clicked:', row)}
+                        onSelectionChange={(selected) => console.log('Selected rows:', selected)}
+                        loading={loading}
+                      />
+                    </>
                   )}
                 </div>
 
-                
+
               </div>
             </div>
           </div>
         </main>
       </div>
     </ErrorBoundary>
-   );
+  );
 });
 
 export default Dashboard;

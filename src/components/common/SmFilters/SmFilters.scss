@@ -1,0 +1,213 @@
+.bottom-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 10000;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .bottom-sheet {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 10000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease-out;
+  
+    .bottom-sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+  
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    }
+  
+    .bottom-sheet-tabs {
+      display: flex;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #f2f2f2;
+  
+      button {
+        flex: 1;
+        padding: 0.75rem;
+        border: none;
+        background: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+  
+        &.active {
+          background: #edfafc;
+          color: #000;
+          font-weight: bold;
+        }
+      }
+    }
+  
+    .bottom-sheet-body {
+      flex: 1;
+      overflow-y: auto;
+  
+      .filter-group {
+        margin-bottom: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+  
+        label {
+          display: block;
+          text-align: start;
+          margin-bottom: 0.25rem;
+          font-size: 0.875rem;
+          font-weight: 900;
+          color: #4a5568;
+        }
+  
+        input {
+          width: 80%;
+          padding: 0.2rem 0.2rem;
+          height: 30px;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          font-size: 0.875rem;
+          color: #2d3748;
+          background-color: #ffffff;
+          transition: border-color 0.2s, box-shadow 0.2s;
+  
+          &:focus {
+            outline: none;
+            border-color: #4a6cf7;
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+          }
+        }
+  
+        .filter-radio {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+  
+          input[type="radio"] {
+            display: none;
+          }
+  
+          span {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+  
+          input[type="radio"]:checked + span {
+            background-color: #7ebfcc;
+            color: #fff;
+            border-color: #7ebfcc;
+            font-weight: bold;
+          }
+        }
+      }
+  
+      .clear-filters {
+        padding: 0.5rem 1rem;
+        background-color: #f2f2f2;
+        border: none;
+        border-radius: 8px;
+        width: 100%;
+        cursor: pointer;
+  
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+  
+  .bottom-sheet-toggle {
+    display: flex;
+    z-index: 10000;
+    background-color: #fbffff;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #edfafc;
+      border: none;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  }
+  
+  .sort-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  
+    .sort-item {
+      padding: 0.75rem 1rem;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+  
+      &:hover {
+        background-color: #d0e4e6;
+      }
+  
+      &.active {
+        background-color: #7ebfcc;
+        color: #fff;
+        font-weight: bold;
+      }
+  
+      .close-sort {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        padding: 0 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: #fff;
+      }
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
