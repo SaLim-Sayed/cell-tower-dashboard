@@ -1,7 +1,7 @@
 // src/hooks/useResponsive.ts
 import { useState, useEffect } from 'react';
-import { BREAKPOINTS } from '../types/dashboard';
-
+import { BREAKPOINTS } from '../constant';
+ 
 interface UseResponsiveReturn {
   isMobile: boolean;
   isTablet: boolean;
