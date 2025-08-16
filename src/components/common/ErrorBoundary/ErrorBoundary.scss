@@ -1,0 +1,108 @@
+// src/components/common/ErrorBoundary/ErrorBoundary.scss
+@use "sass:map";
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.error-boundary {
+  @include flex-center;
+  min-height: 400px;
+  padding: map.get($spacing, 8);
+  background-color: map.get($colors, background);
+  
+  &__content {
+    @include card;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  &__icon {
+    @include flex-center;
+    width: 64px;
+    height: 64px;
+    background-color: rgba(map.get($colors, danger), 0.1);
+    border-radius: 50%;
+    color: map.get($colors, danger);
+    margin: 0 auto map.get($spacing, 4);
+  }
+  
+  &__title {
+    font-size: map.get($font-sizes, 2xl);
+    font-weight: map.get($font-weights, bold);
+    color: map.get($colors, text-primary);
+    margin: 0 0 map.get($spacing, 2) 0;
+  }
+  
+  &__message {
+    font-size: map.get($font-sizes, base);
+    color: map.get($colors, text-secondary);
+    margin: 0 0 map.get($spacing, 6) 0;
+    line-height: map.get($line-heights, relaxed);
+  }
+  
+  &__actions {
+    display: flex;
+    gap: map.get($spacing, 3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  &__button {
+    @include button-base;
+    padding: map.get($spacing, 3) map.get($spacing, 6);
+    font-size: map.get($font-sizes, sm);
+    border-radius: map.get($border-radius, md);
+    
+    &--primary {
+      background-color: map.get($colors, primary);
+      color: map.get($colors, text-inverse);
+      
+      &:hover:not(:disabled) {
+        background-color: darken(map.get($colors, primary), 8%);
+      }
+    }
+    
+    &--secondary {
+      background-color: transparent;
+      color: map.get($colors, text-secondary);
+      border: 1px solid map.get($colors, border);
+      
+      &:hover:not(:disabled) {
+        background-color: map.get($colors, background);
+        border-color: map.get($colors, text-secondary);
+      }
+    }
+  }
+  
+  &__details {
+    margin-top: map.get($spacing, 6);
+    text-align: left;
+    
+    summary {
+      cursor: pointer;
+      padding: map.get($spacing, 2);
+      background-color: map.get($colors, background);
+      border-radius: map.get($border-radius, default);
+      font-weight: map.get($font-weights, medium);
+      color: map.get($colors, text-secondary);
+      
+      &:hover {
+        color: map.get($colors, text-primary);
+      }
+    }
+  }
+  
+  &__stack {
+    background-color: #1f2937;
+    color: #f3f4f6;
+    padding: map.get($spacing, 4);
+    border-radius: map.get($border-radius, md);
+    font-family: $font-family-mono;
+    font-size: map.get($font-sizes, xs);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin-top: map.get($spacing, 3);
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}

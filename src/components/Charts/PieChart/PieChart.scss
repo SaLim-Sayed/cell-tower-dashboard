@@ -1,0 +1,79 @@
+
+// src/components/Charts/PieChart/PieChart.scss
+@use "sass:map";
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.pie-chart {
+  @include flex-center;
+  width: 100%;
+  
+  &--empty {
+    height: 300px;
+    color: map.get($colors, text-secondary);
+  }
+  
+  &__svg {
+    max-width: 100%;
+    height: auto;
+    font-family: $font-family-primary;
+  }
+  
+  &__empty-state {
+    text-align: center;
+    
+    p {
+      margin: 0;
+      font-size: map.get($font-sizes, base);
+    }
+  }
+  
+  // Chart elements styling
+  :global(.pie-chart__slice) {
+    cursor: pointer;
+  }
+  
+  :global(.pie-chart__path) {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  :global(.pie-chart__label) {
+    font-size: map.get($font-sizes, sm);
+    font-weight: map.get($font-weights, semibold);
+    fill: map.get($colors, text-primary);
+    pointer-events: none;
+  }
+  
+  :global(.pie-chart__polyline) {
+    fill: none;
+    stroke: map.get($colors, border);
+    stroke-width: 1;
+    pointer-events: none;
+  }
+  
+  :global(.pie-chart__legend) {
+    font-size: map.get($font-sizes, sm);
+  }
+  
+  :global(.pie-chart__legend-item) {
+    cursor: default;
+  }
+  
+  &__tooltip {
+    position: absolute;
+    background-color: rgba(map.get($colors, text-primary), 0.9);
+    color: map.get($colors, text-inverse);
+    padding: map.get($spacing, 2) map.get($spacing, 3);
+    border-radius: map.get($border-radius, md);
+    font-size: map.get($font-sizes, sm);
+    pointer-events: none;
+    z-index: map.get($z-index, tooltip);
+    backdrop-filter: blur(4px);
+  }
+  
+  &__tooltip-content {
+    text-align: center;
+    line-height: map.get($line-heights, tight);
+  }
+}

@@ -1,0 +1,52 @@
+// src/components/Header/Header.scss
+@use "sass:map";
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.header {
+  background-color: map.get($colors, surface);
+  border-bottom: 1px solid map.get($colors, border);
+  box-shadow: map.get($shadows, sm);
+  position: sticky;
+  top: 0;
+  z-index: map.get($z-index, sticky);
+  
+  &__content {
+    @include flex-between;
+    padding: map.get($spacing, 4) 0;
+    
+    @include respond-to(tablet) {
+      padding: map.get($spacing, 5) 0;
+    }
+  }
+  
+  &__brand {
+    @include flex-center;
+    gap: map.get($spacing, 3);
+  }
+  
+  &__logo {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    background-color: map.get($colors, primary);
+    border-radius: map.get($border-radius, lg);
+    color: map.get($colors, text-inverse);
+    flex-shrink: 0;
+  }
+  
+  &__title {
+    font-size: map.get($font-sizes, xl);
+    font-weight: map.get($font-weights, bold);
+    color: map.get($colors, text-primary);
+    margin: 0;
+    
+    @include respond-to(tablet) {
+      font-size: map.get($font-sizes, 2xl);
+    }
+    
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+}

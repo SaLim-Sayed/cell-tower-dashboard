@@ -1,0 +1,165 @@
+// src/styles/mixins.scss
+@use 'sass:map';
+@import './variables';
+
+// Responsive Breakpoint Mixin
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint '#{$breakpoint}' not found in $breakpoints map.";
+  }
+}
+
+// Fluid Typography
+@mixin fluid-type($min-size, $max-size, $min-vw: 320px, $max-vw: 1200px) {
+  font-size: $min-size;
+  
+  @media (min-width: $min-vw) and (max-width: $max-vw) {
+    font-size: calc(#{$min-size} + #{strip-unit($max-size - $min-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+  }
+  
+  @media (min-width: $max-vw) {
+    font-size: $max-size;
+  }
+}
+
+// Strip units helper function
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+// Flexbox Utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Grid Utilities
+@mixin grid-container($columns: 12, $gap: map.get($spacing, 6)) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// Button Mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: map.get($border-radius, md);
+  font-family: $font-family-primary;
+  font-weight: map.get($font-weights, medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: map.get($transitions, fast);
+  
+  &:focus {
+    outline: 2px solid map.get($colors, primary);
+    outline-offset: 2px;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($color) {
+  @include button-base;
+  background-color: map.get($colors, $color);
+  color: map.get($colors, text-inverse);
+  
+  &:hover:not(:disabled) {
+    background-color: darken(map.get($colors, $color), 8%);
+  }
+}
+
+// Card Component
+@mixin card {
+  background-color: map.get($colors, surface);
+  border-radius: map.get($border-radius, lg);
+  box-shadow: map.get($shadows, default);
+  padding: map.get($spacing, 6);
+}
+
+// Input Styles
+@mixin input-base {
+  width: 100%;
+  padding: map.get($spacing, 3) map.get($spacing, 4);
+  border: 1px solid map.get($colors, border);
+  border-radius: map.get($border-radius, md);
+  font-family: $font-family-primary;
+  font-size: map.get($font-sizes, base);
+  background-color: map.get($colors, surface);
+  transition: map.get($transitions, fast);
+  
+  &:focus {
+    outline: none;
+    border-color: map.get($colors, primary);
+    box-shadow: 0 0 0 3px rgba(map.get($colors, primary), 0.1);
+  }
+  
+  &::placeholder {
+    color: map.get($colors, text-secondary);
+  }
+}
+
+// Loading Animation
+@mixin loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(map.get($colors, neutral), 0.1) 25%,
+    rgba(map.get($colors, neutral), 0.2) 50%,
+    rgba(map.get($colors, neutral), 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Truncate Text
+@mixin truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Visually Hidden (Screen Reader Only)
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

@@ -1,0 +1,115 @@
+// src/components/Dashboard/Dashboard.scss
+@use "sass:map";
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.dashboard {
+  min-height: 100vh;
+  width: 100%;
+  flex: 1;
+  background-color: map.get($colors, background);
+  
+  &--loading {
+    @include flex-center;
+    padding: map.get($spacing, 20);
+  }
+  
+  &--error {
+    @include flex-center;
+    padding: map.get($spacing, 20);
+    
+    .error-state {
+      text-align: center;
+      max-width: 400px;
+      
+      h2 {
+        color: map.get($colors, danger);
+        margin-bottom: map.get($spacing, 4);
+      }
+      
+      p {
+        color: map.get($colors, text-secondary);
+        margin-bottom: map.get($spacing, 6);
+      }
+      
+      .button {
+        @include button-variant(primary);
+        padding: map.get($spacing, 3) map.get($spacing, 6);
+      }
+    }
+  }
+  
+  &__main {
+    padding: map.get($spacing, 6) 0;
+  }
+  
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: map.get($spacing, 8);
+    @include respond-to(desktop) {
+      flex-direction: column; 
+    }
+  }
+
+  &__filters-section {
+    width: 100%;
+    @include card;
+    padding: map.get($spacing, 4);
+  }
+
+  &__data-section {
+    display: flex;
+    flex-direction: column;
+    gap: map.get($spacing, 8);
+  }
+
+  &__status {
+    background-color: map.get($colors, primary);
+    color: map.get($colors, text-inverse);
+    padding: map.get($spacing, 1) map.get($spacing, 3);
+    border-radius: map.get($border-radius, full);
+    font-size: map.get($font-sizes, sm);
+    font-weight: map.get($font-weights, medium);
+    
+    &--active {
+      background-color: rgba(map.get($colors, success), 0.1);
+      color: map.get($colors, success);
+    }
+    
+    &--offline {
+      background-color: rgba(map.get($colors, danger), 0.1);
+      color: map.get($colors, danger);
+    }
+  }
+
+  &__table-container {
+    @include card;
+    padding: 0;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  &__charts-container {
+    display: grid;
+    gap: map.get($spacing, 6);
+    
+    @include respond-to(tablet) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  &__chart {
+    @include card;
+    
+    &-title {
+      font-size: map.get($font-sizes, lg);
+      font-weight: map.get($font-weights, semibold);
+      color: map.get($colors, text-primary);
+      margin-bottom: map.get($spacing, 4);
+      text-align: center;
+    }
+  }
+}

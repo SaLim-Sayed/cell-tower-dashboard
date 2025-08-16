@@ -1,0 +1,159 @@
+
+// src/styles/globals.scss
+@import './variables';
+@import './mixins';
+
+// CSS Reset & Base Styles
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: map.get($line-heights, normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $font-family-primary;
+  font-size: map.get($font-sizes, base);
+  color: map.get($colors, text-primary);
+  background-color: map.get($colors, background);
+  min-height: 100vh;
+}
+
+// Typography Scale
+h1, h2, h3, h4, h5, h6 {
+  font-weight: map.get($font-weights, semibold);
+  line-height: map.get($line-heights, tight);
+  margin-bottom: map.get($spacing, 4);
+}
+
+h1 { font-size: map.get($font-sizes, 4xl); }
+h2 { font-size: map.get($font-sizes, 3xl); }
+h3 { font-size: map.get($font-sizes, 2xl); }
+h4 { font-size: map.get($font-sizes, xl); }
+h5 { font-size: map.get($font-sizes, lg); }
+h6 { font-size: map.get($font-sizes, base); }
+
+p {
+  margin-bottom: map.get($spacing, 4);
+  line-height: map.get($line-heights, relaxed);
+}
+
+// Links
+a {
+  color: map.get($colors, primary);
+  text-decoration: none;
+  transition: map.get($transitions, fast);
+  
+  &:hover {
+    text-decoration: underline;
+  }
+  
+  &:focus {
+    outline: 2px solid map.get($colors, primary);
+    outline-offset: 2px;
+  }
+}
+
+// Form Elements
+button {
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+// Utility Classes
+.sr-only {
+  @include visually-hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 map.get($spacing, 4);
+  
+  @include respond-to(tablet) {
+    padding: 0 map.get($spacing, 6);
+  }
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.flex { display: flex; }
+.flex-center { @include flex-center; }
+.flex-between { @include flex-between; }
+.flex-column { @include flex-column; }
+
+.grid {
+  display: grid;
+  gap: map.get($spacing, 4);
+}
+
+// Loading State
+.loading {
+  @include loading-shimmer;
+}
+
+// Status Indicators
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: map.get($spacing, 1) map.get($spacing, 3);
+  border-radius: map.get($border-radius, full);
+  font-size: map.get($font-sizes, sm);
+  font-weight: map.get($font-weights, medium);
+  
+  &--active {
+    background-color: rgba(map.get($colors, success), 0.1);
+    color: map.get($colors, success);
+  }
+  
+  &--offline {
+    background-color: rgba(map.get($colors, danger), 0.1);
+    color: map.get($colors, danger);
+  }
+}
+
+// Signal Strength Indicators
+.signal-strength {
+  display: flex;
+  gap: map.get($spacing, 1);
+  
+  &__bar {
+    width: 3px;
+    height: 16px;
+    background-color: map.get($colors, neutral);
+    border-radius: map.get($border-radius, sm);
+    
+    &--active {
+      background-color: map.get($colors, success);
+    }
+  }
+}
+
+// Responsive Utilities
+@include respond-to(tablet) {
+  .tablet\:hidden { display: none !important; }
+  .tablet\:block { display: block !important; }
+  .tablet\:flex { display: flex !important; }
+  .tablet\:grid { display: grid !important; }
+}
+
+@include respond-to(desktop) {
+  .desktop\:hidden { display: none !important; }
+  .desktop\:block { display: block !important; }
+  .desktop\:flex { display: flex !important; }
+  .desktop\:grid { display: grid !important; }
+}
