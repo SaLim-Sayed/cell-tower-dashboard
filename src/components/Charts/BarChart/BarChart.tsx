@@ -1,7 +1,6 @@
-// src/components/Charts/BarChart/BarChart.tsx
 import React, { useRef, useEffect, memo } from 'react';
 import * as d3 from 'd3';
-import type { ChartProps, CityCount, ChartDimensions } from '../../../types/dashboard.types';
+import type { ChartProps, CityCount, ChartDimensions } from '../../../types/dashboard';
 import { useResponsive } from '../../../hooks/useResponsive';
 import './BarChart.scss';
 

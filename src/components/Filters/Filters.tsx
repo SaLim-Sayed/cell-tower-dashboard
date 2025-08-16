@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FilterProps } from '../../types/dashboard.types';
+import type { FilterProps } from '../../types/dashboard';
 import './Filters.scss';
 
 const Filters: React.FC<FilterProps & {

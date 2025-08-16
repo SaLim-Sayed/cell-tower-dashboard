@@ -94,6 +94,9 @@
   &__charts-container {
     display: grid;
     gap: map.get($spacing, 6);
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
     
     @include respond-to(tablet) {
       grid-template-columns: 1fr 1fr;
@@ -111,4 +114,18 @@
       text-align: center;
     }
   }
+  @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  &__loading {
+    @include flex-center;
+    padding: map.get($spacing, 20);
+  }
+  &__loading svg {
+  width: 2rem;  
+    animation: spin 1s linear infinite;
+  }
+  
 }

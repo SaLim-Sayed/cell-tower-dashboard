@@ -1,6 +1,6 @@
 // src/hooks/useSort.ts
 import { useState, useMemo, useCallback } from 'react';
-import type { CellTower, SortConfig } from '../types/dashboard.types';
+import type { CellTower, SortConfig } from '../types/dashboard';
 import dataService from '../services/dataService';
  
 interface UseSortReturn {

@@ -1,25 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-//src/services/dataService.ts
- 
 import { MOCK_TOWERS } from '../data/mockData';
-import { COLORS, type ApiResponse, type CellTower, type ChartData, type CityCount, type DashboardData, type StatusCount, type SummaryMetrics } from '../types/dashboard.types';
+import { type ApiResponse, type CellTower, type ChartData, type CityCount, type DashboardData, type StatusCount, type SummaryMetrics } from '../types';
+import { COLORS } from '../constant';
 
 class DataService {
   private towers: CellTower[] = MOCK_TOWERS;
   private simulateNetworkDelay = true;
   private delayMs = 800;
 
-  /**
-   * Simulates network delay for realistic loading states
-   */
+
   private async delay(ms: number): Promise<void> {
     if (!this.simulateNetworkDelay) return;
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  /**
-   * Fetches all cell towers with simulated async behavior
-   */
+
   public async getTowers(): Promise<ApiResponse<CellTower[]>> {
     try {
       await this.delay(this.delayMs);
@@ -39,9 +34,7 @@ class DataService {
     }
   }
 
-  /**
-   * Calculates summary metrics from tower data
-   */
+
   public calculateSummaryMetrics(towers: CellTower[]): SummaryMetrics {
     const totalTowers = towers.length;
     const activeTowers = towers.filter(tower => tower.status === 'active').length;
@@ -56,9 +49,6 @@ class DataService {
     };
   }
 
-  /**
-   * Generates chart data from tower information
-   */
   public generateChartData(towers: CellTower[]): ChartData {
     const cityColors = {
       'Cairo': COLORS.chart.cairo,
@@ -67,7 +57,6 @@ class DataService {
       'Luxor': COLORS.chart.luxor
     };
 
-    // Towers by city chart data
     const cityGroups = towers.reduce((acc, tower) => {
       acc[tower.city] = (acc[tower.city] || 0) + 1;
       return acc;
@@ -79,7 +68,6 @@ class DataService {
       color: cityColors[city as keyof typeof cityColors] || COLORS.neutral
     }));
 
-    // Status distribution chart data
     const statusGroups = towers.reduce((acc, tower) => {
       acc[tower.status] = (acc[tower.status] || 0) + 1;
       return acc;
@@ -99,9 +87,6 @@ class DataService {
     };
   }
 
-  /**
-   * Fetches complete dashboard data
-   */
   public async getDashboardData(): Promise<ApiResponse<DashboardData>> {
     try {
       const towersResponse = await this.getTowers();
@@ -136,9 +121,6 @@ class DataService {
     }
   }
 
-  /**
-   * Filters towers based on search term and city
-   */
   public filterTowers(
     towers: CellTower[], 
     searchTerm: string, 
@@ -151,17 +133,11 @@ class DataService {
     });
   }
 
-  /**
-   * Gets unique cities from towers data
-   */
   public getUniqueCities(towers: CellTower[]): string[] {
     const cities = [...new Set(towers.map(tower => tower.city))];
     return cities.sort();
   }
 
-  /**
-   * Sorts towers by specified key and direction
-   */
   public sortTowers(
     towers: CellTower[], 
     key: keyof CellTower, 
@@ -189,15 +165,11 @@ class DataService {
     return sortedTowers;
   }
 
-  /**
-   * Development utility to disable network delay
-   */
   public setNetworkSimulation(enabled: boolean, delayMs: number = 800): void {
     this.simulateNetworkDelay = enabled;
     this.delayMs = delayMs;
   }
 }
 
-// Export singleton instance
 export const dataService = new DataService();
 export default dataService;

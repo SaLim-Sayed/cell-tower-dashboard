@@ -1,6 +1,6 @@
 // src/data/mockData.ts
 
-import type { CellTower } from "../types/dashboard.types";
+import type { CellTower } from "../types/dashboard";
 
  
 export const MOCK_TOWERS: CellTower[] = [

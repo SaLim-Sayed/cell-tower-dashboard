@@ -1,5 +1,4 @@
 @use "sass:map";
-
 $colors: (
   primary: #2563eb,
   success: #10b981,
@@ -51,7 +50,6 @@ $line-heights: (
   relaxed: 1.75
 );
 
-// Spacing System (4px base unit)
 $spacing: (
   0: 0,
   1: 0.25rem,  
@@ -68,7 +66,6 @@ $spacing: (
   24: 6rem      
 );
 
-// Breakpoints
 $breakpoints: (
   mobile: 320px,
   tablet: 768px,
@@ -76,7 +73,6 @@ $breakpoints: (
   wide: 1200px
 );
 
-// Border Radius
 $border-radius: (
   none: 0,
   sm: 0.125rem,   
@@ -88,7 +84,6 @@ $border-radius: (
   full: 9999px
 );
 
-// Shadows
 $shadows: (
   sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
   default:" 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
@@ -98,7 +93,6 @@ $shadows: (
 );
 
 
-// Z-Index Scale
 $z-index: (
   dropdown: 1000,
   sticky: 1020,
@@ -109,7 +103,6 @@ $z-index: (
   tooltip: 1070
 );
 
-// Transitions
 $transitions: (
   fast: 150ms ease-in-out,
   normal: 250ms ease-in-out,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { CellTower } from "../../types/dashboard.types";
+import type { CellTower } from "../../types/dashboard";
 import StarRatings from "react-star-ratings";
 import "./DataCards.scss";
 
@@ -36,8 +36,7 @@ const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }
 
   return (
     <div>
-      {/* Sort Button */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" ,width:"100%"}}>
         <button onClick={() => setSortModalOpen(true)}>Sort</button>
       </div>
 

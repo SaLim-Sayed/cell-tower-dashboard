@@ -1,4 +1,4 @@
-// src/components/Dashboard/Dashboard.tsx
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { memo } from 'react';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import { useFilters } from '../../hooks/useFilters';
@@ -11,17 +11,18 @@ import ErrorBoundary from '../common/ErrorBoundary/ErrorBoundary';
 import { dataService } from '../../services/dataService';
 import './Dashboard.scss';
 import StarRatings from 'react-star-ratings';
-import type { CellTower } from '../../types/dashboard.types';
+import type { CellTower } from '../../types/dashboard';
 import { useMediaQuery } from 'react-responsive';
 import DataCards from '../DataTable/DataCards';
+import { FaSpinner } from 'react-icons/fa';
 
 const Dashboard: React.FC = memo(() => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const { dashboardData, loading, error, refetch } = useDashboardData();
   const { filters, filteredTowers, setSearchTerm, setSelectedCity, clearFilters } = useFilters(dashboardData.towers);
-  const totalTowers = dashboardData.towers.length;
-  const activeTowers = dashboardData.towers.filter((tower) => tower.status === 'active').length;
-  const avgSignal = dashboardData.towers.reduce((acc, tower) => acc + tower.signalStrength, 0) / dashboardData.towers.length;
+   const cities = dataService.getUniqueCities(dashboardData.towers);
+   const summary = dataService.calculateSummaryMetrics(dashboardData.towers);
+
   const columns: Column<CellTower>[] = [
     { header: 'Name', accessor: 'name', sortable: true, sortKey: 'name' },
     { header: 'City', accessor: 'city', sortable: true, sortKey: 'city' },
@@ -55,13 +56,11 @@ const Dashboard: React.FC = memo(() => {
     },
   ];
 
-  const cities = dataService.getUniqueCities(dashboardData.towers);
 
   if (loading) {
     return (
-      <div className="dashboard dashboard--loading">
-        <div className="container">
-        </div>
+      <div className="dashboard dashboard__loading">
+        <FaSpinner style={{ fontSize: '2rem', color: 'blue' }} />
       </div>
     );
   }
@@ -85,13 +84,13 @@ const Dashboard: React.FC = memo(() => {
       </div>
     );
   }
-
   return (
+    <ErrorBoundary>
        <div className="dashboard">
         <Header
-          totalTowers={totalTowers}
-          activeTowers={activeTowers}
-          avgSignal={avgSignal.toFixed(1)}
+          totalTowers={summary.totalTowers}
+          activeTowers={summary.activeTowers}
+          avgSignal={summary.averageSignal.toFixed(1)}
         />
 
         <main className="dashboard__main">
@@ -118,6 +117,7 @@ const Dashboard: React.FC = memo(() => {
               <Filters
                 filters={filters}
                 cities={cities}
+                // @ts-ignore
                 onFiltersChange={{
                   setSearchTerm,
                   setSelectedCity
@@ -151,6 +151,7 @@ const Dashboard: React.FC = memo(() => {
           </div>
         </main>
       </div>
+    </ErrorBoundary>
    );
 });
 

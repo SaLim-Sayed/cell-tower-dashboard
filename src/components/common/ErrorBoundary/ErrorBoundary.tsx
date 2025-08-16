@@ -1,6 +1,6 @@
 // src/components/common/ErrorBoundary/ErrorBoundary.tsx
  import './ErrorBoundary.scss';
-import type { DashboardError } from '../../../types/dashboard.types';
+import type { DashboardError } from '../../../types/dashboard';
 import type { ReactNode } from 'react';
 import type { FallbackProps } from 'react-error-boundary';
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
@@ -49,12 +49,7 @@ function DefaultFallback({ error, resetErrorBoundary }: FallbackProps) {
             Reload Page
           </button>
         </div>
-        {process.env.NODE_ENV === 'development' && dashboardError.details && (
-          <details className="error-boundary__details">
-            <summary>Error Details (Development)</summary>
-            <pre className="error-boundary__stack">{dashboardError.details}</pre>
-          </details>
-        )}
+        
       </div>
     </div>
   );

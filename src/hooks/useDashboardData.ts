@@ -1,6 +1,6 @@
 // src/hooks/useDashboardData.ts
 import { useState, useEffect, useCallback } from 'react';
-import type { DashboardData, UseDashboardDataReturn } from '../types/dashboard.types';
+import type { DashboardData, UseDashboardDataReturn } from '../types/dashboard';
 import dataService from '../services/dataService';
  
 export const useDashboardData = (): UseDashboardDataReturn => {

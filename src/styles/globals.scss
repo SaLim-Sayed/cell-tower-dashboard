@@ -1,9 +1,7 @@
 
-// src/styles/globals.scss
 @import './variables';
 @import './mixins';
 
-// CSS Reset & Base Styles
 *,
 *::before,
 *::after {
@@ -28,7 +26,6 @@ body {
   width: 100%;
 }
 
-// Typography Scale
 h1, h2, h3, h4, h5, h6 {
   font-weight: map.get($font-weights, semibold);
   line-height: map.get($line-heights, tight);
@@ -47,7 +44,6 @@ p {
   line-height: map.get($line-heights, relaxed);
 }
 
-// Links
 a {
   color: map.get($colors, primary);
   text-decoration: none;
@@ -63,7 +59,6 @@ a {
   }
 }
 
-// Form Elements
 button {
   font-family: inherit;
 }
@@ -72,8 +67,7 @@ input, textarea, select {
   font-family: inherit;
 }
 
-// Utility Classes
-.sr-only {
+ .sr-only {
   @include visually-hidden;
 }
 
@@ -102,12 +96,9 @@ input, textarea, select {
   gap: map.get($spacing, 4);
 }
 
-// Loading State
 .loading {
   @include loading-shimmer;
 }
-
-// Status Indicators
 .status {
   display: inline-flex;
   align-items: center;
@@ -127,7 +118,6 @@ input, textarea, select {
   }
 }
 
-// Signal Strength Indicators
 .signal-strength {
   display: flex;
   gap: map.get($spacing, 1);
@@ -144,7 +134,6 @@ input, textarea, select {
   }
 }
 
-// Responsive Utilities
 @include respond-to(tablet) {
   .tablet\:hidden { display: none !important; }
   .tablet\:block { display: block !important; }

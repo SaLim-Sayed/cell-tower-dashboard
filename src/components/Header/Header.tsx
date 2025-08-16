@@ -1,7 +1,7 @@
 // src/components/Header/Header.tsx
 import React, { memo } from 'react';
 import './Header.scss';
-import type { BaseComponentProps } from '../../types/dashboard.types';
+import type { BaseComponentProps } from '../../types/dashboard';
 import logo from '../../../public/antenna.svg';
 interface HeaderProps extends BaseComponentProps {
   title?: string;

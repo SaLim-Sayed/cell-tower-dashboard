@@ -1,7 +1,7 @@
 // src/components/Charts/PieChart/PieChart.tsx
 import React, { useRef, useEffect, memo } from "react";
 import * as d3 from "d3";
-import type { ChartProps, StatusCount, ChartDimensions } from "../../../types/dashboard.types";
+import type { ChartProps, StatusCount, ChartDimensions } from "../../../types/dashboard";
 import { useResponsive } from "../../../hooks/useResponsive";
 import "./PieChart.scss";
 
