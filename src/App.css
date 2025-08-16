@@ -1,23 +1,14 @@
 #root {
-  min-width: fit-content;
-   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+  min-width: 100%;
+   text-align: center;
+  background: linear-gradient(90deg, #e5f0fd, #edf4fc);  
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+.App {
+  margin: 0 auto;
+ }
 
+ 
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -25,6 +16,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+@media (max-width: 640px) {
+  #root {
+    min-width:100%;  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

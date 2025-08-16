@@ -4,7 +4,7 @@
 @import '../../styles/mixins';
 
 .header {
-  background-color: map.get($colors, surface);
+  background: linear-gradient(90deg, #9bbbe0, #edf4fc); // Blue gradient
   border-bottom: 1px solid map.get($colors, border);
   box-shadow: map.get($shadows, sm);
   position: sticky;
@@ -17,6 +17,7 @@
     @include flex-between;
     padding: map.get($spacing, 4) 0;
     align-items: center;
+    margin: 0 ;
     width: 100%;
     
     flex-wrap: wrap;
