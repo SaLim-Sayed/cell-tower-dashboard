@@ -47,6 +47,7 @@
     height: 40px;
      border-radius: map.get($border-radius, lg);
     color: map.get($colors, text-inverse);
+    padding-left: map.get($spacing, 5);
     flex-shrink: 0;
 
     @media (max-width: 480px) {

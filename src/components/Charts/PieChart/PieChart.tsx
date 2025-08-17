@@ -14,7 +14,7 @@ const PieChart: React.FC<IPieChartProps> = memo(
     const { isMobile } = useResponsive();
 
     const defaultDimensions: ChartDimensions = {
-      width: isMobile ? 350 : 500,
+      width: isMobile ? 300 : 500,
       height: isMobile ? 280 : 350,
       margin: { top: 90, right: 20, bottom: 20, left: 20 },
     };

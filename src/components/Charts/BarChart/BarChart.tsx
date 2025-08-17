@@ -28,7 +28,7 @@ const BarChart: React.FC<IBarChartProps> = memo(({
   // Memoize dimensions to prevent unnecessary recalculations
   const chartDimensions = useMemo(() => {
     const defaultDimensions: ChartDimensions = {
-      width: isMobile ? 350 : 500,
+      width: isMobile ? 300 : 500,
       height: isMobile ? 280 : 350,
       margin: {
         top: 30,
@@ -41,8 +41,8 @@ const BarChart: React.FC<IBarChartProps> = memo(({
   }, [dimensions, isMobile]);
 
   const { width, height, margin } = chartDimensions;
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
+  const innerWidth = isMobile ? 200 : width - margin.left - margin.right;
+  const innerHeight = isMobile ? 200 : height - margin.top - margin.bottom;
 
   // Memoize processed data to prevent unnecessary recalculations
   const processedData = useMemo(() => {
