@@ -24,6 +24,7 @@
     p {
       margin: 0;
       font-size: map.get($font-sizes, base);
+      color:#000;
     }
   }
   
@@ -130,6 +131,7 @@
   &__tooltip-content {
     text-align: center;
     line-height: map.get($line-heights, tight);
+    color:#000;
     
     strong {
       display: block;

@@ -146,7 +146,7 @@
     display: block;
     font-size: map.get($font-sizes, xl, 1.2rem);
     font-weight: map.get($font-weights, bold);
-    color: map.get($colors, text-primary, #222);
+    color: #000;
     line-height: 1.2;
 
     @media (max-width: 480px) {
