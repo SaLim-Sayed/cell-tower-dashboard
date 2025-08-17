@@ -3,7 +3,7 @@
 import React from 'react';
 import type { CellTower, FilterProps } from '../../types/dashboard';
 import SmFilters from '../Filters/SmFilters/SmFilters';
-import DataCards from './DataTable/DataCards';
+import DataCards from './DataCards/DataCards';
 
 type SortConfig = {
   key: keyof CellTower;

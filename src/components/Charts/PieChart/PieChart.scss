@@ -1,5 +1,3 @@
-
-// src/components/Charts/PieChart/PieChart.scss
 @use "sass:map";
 
 @import '../../../styles/variables';
@@ -36,6 +34,11 @@
   
   :global(.pie-chart__path) {
     transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      filter: brightness(1.1);
+      stroke-width: 3;
+    }
   }
   
   :global(.pie-chart__label) {
@@ -43,13 +46,33 @@
     font-weight: map.get($font-weights, semibold);
     fill: map.get($colors, text-primary);
     pointer-events: none;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
   }
   
   :global(.pie-chart__polyline) {
     fill: none;
-    stroke: map.get($colors, border);
-    stroke-width: 1;
+    stroke: map.get($colors, text-secondary);
+    stroke-width: 1.5;
     pointer-events: none;
+    opacity: 0.6;
+    
+    .pie-chart__slice:hover & {
+      stroke: map.get($colors, text-primary);
+      opacity: 1;
+      stroke-width: 2;
+    }
+  }
+  
+  :global(.pie-chart__arrow-head) {
+    fill: map.get($colors, text-secondary);
+    stroke: none;
+    pointer-events: none;
+    opacity: 0.7;
+    
+    .pie-chart__slice:hover & {
+      fill: map.get($colors, text-primary);
+      opacity: 1;
+    }
   }
   
   :global(.pie-chart__legend) {
@@ -57,23 +80,89 @@
   }
   
   :global(.pie-chart__legend-item) {
-    cursor: default;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      opacity: 0.8;
+      transform: translateX(2px);
+    }
+    
+    text {
+      fill: map.get($colors, text-primary);
+      font-weight: map.get($font-weights, medium);
+    }
+    
+    rect {
+      transition: all 0.2s ease-in-out;
+    }
+    
+    &:hover rect {
+      transform: scale(1.1);
+    }
   }
   
   &__tooltip {
     position: absolute;
-    background-color: rgba(map.get($colors, text-primary), 0.9);
+    background-color: rgba(map.get($colors, text-primary), 0.95);
     color: map.get($colors, text-inverse);
     padding: map.get($spacing, 2) map.get($spacing, 3);
     border-radius: map.get($border-radius, md);
     font-size: map.get($font-sizes, sm);
     pointer-events: none;
     z-index: map.get($z-index, tooltip);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid rgba(map.get($colors, text-primary), 0.95);
+    }
   }
   
   &__tooltip-content {
     text-align: center;
     line-height: map.get($line-heights, tight);
+    
+    strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: map.get($font-sizes, sm);
+    }
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    :global(.pie-chart__label) {
+      font-size: map.get($font-sizes, xs);
+    }
+    
+    :global(.pie-chart__legend) {
+      font-size: map.get($font-sizes, xs);
+    }
+    
+    :global(.pie-chart__polyline) {
+      stroke-width: 1;
+    }
+    
+    :global(.pie-chart__arrow-head) {
+      transform: scale(0.8);
+    }
+  }
+  
+  // Animation classes for better performance
+  :global(.pie-chart__slice) {
+    will-change: transform;
+  }
+  
+  :global(.pie-chart__path) {
+    will-change: transform, filter;
   }
 }

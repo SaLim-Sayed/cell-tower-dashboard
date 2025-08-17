@@ -46,8 +46,8 @@ export const MOCK_TOWERS: CellTower[] = [
   },
   {
     id: 'tower-006',
-    name: 'Alexandria City Center',
-    city: 'Alexandria',
+    name: 'Cairo City Center',
+    city: 'Cairo',
     networkType: '4G',
     status: 'offline',
     signalStrength: 2

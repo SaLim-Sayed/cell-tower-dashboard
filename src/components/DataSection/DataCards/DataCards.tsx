@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import type { CellTower } from "../../../types/dashboard";
 import StarRatings from "react-star-ratings";
 import "./DataCards.scss";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface DataCardsProps {
   data: CellTower[];
@@ -70,8 +71,9 @@ const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }
           <button
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
+            className="pagination__button"
           >
-            Prev
+            <FaArrowLeft /> Prev
           </button>
           <span>
             Page {currentPage} of {totalPages}
@@ -79,8 +81,9 @@ const DataCards: React.FC<DataCardsProps> = ({ data, onRowClick, pageSize = 10 }
           <button
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
+            className="pagination__button"
           >
-            Next
+            Next <FaArrowRight />
           </button>
         </div>
       )}

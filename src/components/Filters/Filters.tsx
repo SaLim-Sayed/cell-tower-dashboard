@@ -1,6 +1,7 @@
 import React from 'react';
 import type { FilterProps } from '../../types/dashboard';
 import './Filters.scss';
+import { TbTrash } from 'react-icons/tb';
 
 const Filters: React.FC<FilterProps & {
   onFiltersChange: { setSearchTerm: (term: string) => void; setSelectedCity: (city: string) => void };
@@ -44,19 +45,20 @@ const Filters: React.FC<FilterProps & {
           </select>
         </div>
         <div className="filter-group">
-         <label className="filter-label">-</label>
+          <label className="filter-label">-</label>
 
-        <button
-        className="clear-filters"
-        onClick={onClearFilters}
-        disabled={!filters.searchTerm && !filters.selectedCity}
-      >
-        Clear Filters
-      </button>
+          <button
+            className="clear-filters"
+            onClick={onClearFilters}
+            disabled={!filters.searchTerm && !filters.selectedCity}
+          >
+            Clear Filters
+            <TbTrash size={20} />
+          </button>
+        </div>
       </div>
-      </div>
-     
-  
+
+
     </div>
   );
 };

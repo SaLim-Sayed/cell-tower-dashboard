@@ -203,6 +203,9 @@
     }
 
     button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.5rem 1rem;
       background-color: #ffffff;
       border: 1px solid #e2e8f0;

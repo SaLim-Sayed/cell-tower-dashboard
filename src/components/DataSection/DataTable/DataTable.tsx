@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useMemo } from 'react';
 import './DataTable.scss';
-import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 export interface Column<T> {
   header: string;
@@ -295,8 +295,9 @@ const DataTable = <T extends Record<string, any>>({
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
+            className="pagination__button"
           >
-            Previous
+            <FaArrowLeft /> Previous
           </button>
           <span className="pagination__info">
             Page {currentPage} of {totalPages}
@@ -307,7 +308,7 @@ const DataTable = <T extends Record<string, any>>({
             }
             disabled={currentPage === totalPages}
           >
-            Next
+            Next <FaArrowRight />
           </button>
         </div>
       )}
