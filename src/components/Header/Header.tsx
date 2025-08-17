@@ -2,7 +2,6 @@
 import React, { memo } from 'react';
 import './Header.scss';
 import type { BaseComponentProps } from '../../types/dashboard';
-import logo from '../../../public/antenna.svg';
 interface HeaderProps extends BaseComponentProps {
   title?: string;
   totalTowers?: number;
@@ -23,17 +22,17 @@ const Header: React.FC<HeaderProps> = memo(({
       className={`header ${className}`}
       data-testid={testId}
     >
-      <div className="container">
-        <div className="header__content">
-          <div className="header__brand">
-            <div className="header__logo">
+      <div data-testid="header-container" className="container">
+        <div data-testid="header-content" className="header__content">
+          <div data-testid="header-brand" className="header__brand">
+            <div data-testid="header-logo" className="header__logo">
               {/* svg logo */}
-              <img src={logo} alt="" />
+              <img role="img" src={'../../../public/antenna.svg'} alt="" />
             </div>
             <h1 className="header__title">{title}</h1>
           </div>
           
-          <div className="header__summary">
+          <div data-testid="header-summary" className="header__summary">
             <div className="summary-card">
               <span className="summary-card__label">Total</span>
               <span className="summary-card__value">{totalTowers}</span>
