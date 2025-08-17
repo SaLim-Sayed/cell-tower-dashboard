@@ -57,23 +57,30 @@
   }
   
   &__title {
-    font-size: map.get($font-sizes, xl);
-    font-weight: map.get($font-weights, bold);
-    color: map.get($colors, text-primary);
+    font-size: map.get($font-sizes, 2xl);
+    font-weight: map.get($font-weights, extra-bold);
     margin: 0;
-    
+  
+    /* Gradient text */
+    background: linear-gradient(
+      180deg,
+      map.get($colors, text-primary-gradient),
+      lighten(map.get($colors, primary), 10%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  
     @include respond-to(tablet) {
-      font-size: map.get($font-sizes, 2xl);
+      font-size: map.get($font-sizes, 4xl);
     }
-    
+  
     @media (max-width: 480px) {
       font-size: map.get($font-sizes, lg);
     }
-
-    @media (max-width: 360px) {
-      display: none;
-    }
+  
+    
   }
+  
 
   &__summary {
     display: flex;
@@ -118,11 +125,18 @@
 
   &__label {
     display: block;
-    font-size: map.get($font-sizes, sm, 0.8rem);
-    color: map.get($colors, text-secondary, #666);
+    font-size: map.get($font-sizes, md);
+    color: map.get($colors, text-secondary);
     margin-bottom: map.get($spacing, 1, 0.25rem);
     font-weight: map.get($font-weights, medium, 500);
-
+    background: linear-gradient(
+      180deg,
+      map.get($colors, primary),
+      lighten(map.get($colors, primary), 10%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
     @media (max-width: 480px) {
       font-size: 0.7rem;
     }

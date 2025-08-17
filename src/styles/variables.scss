@@ -1,6 +1,6 @@
 @use "sass:map";
 $colors: (
-  primary: #2563eb,
+  primary: #001d5c,
   success: #10b981,
   warning: #f59e0b,
   danger: #ef4444,
@@ -9,6 +9,7 @@ $colors: (
   surface: #ffffff,
   border: #e5e7eb,
   text-primary: #111827,
+  text-primary-gradient: #3b4a6a,
   text-secondary: #6b7280,
   text-inverse: #ffffff
 );
