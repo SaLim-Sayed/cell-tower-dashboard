@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
  
-  import type { CellTower } from '../types';
+import type { CellTower } from '../types';
 import type { Column } from '../components/DataSection/DataTable/DataTable';
 import StarRating from '../components/common/StarRating/StarRating';
 import StatusBadge from '../components/common/StatusBadge';

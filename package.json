@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Professional Cell Tower Dashboard for telecom operations monitoring",
-  "author": "Your Name",
+  "author": "Salim Sayed",
   "license": "MIT",
   "type": "module",
   "scripts": {

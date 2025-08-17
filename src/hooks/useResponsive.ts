@@ -1,4 +1,3 @@
-// src/hooks/useResponsive.ts
 import { useState, useEffect } from 'react';
 import { BREAKPOINTS } from '../constant';
  

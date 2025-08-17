@@ -1,5 +1,4 @@
 
-// src/hooks/useFilters.ts
 import { useState, useMemo, useCallback } from 'react';
 import type { CellTower, FilterState, UseFiltersReturn } from '../types/dashboard';
 import dataService from '../services/dataService';

@@ -1,5 +1,3 @@
-
-// src/hooks/useLocalStorage.ts
 import { useState, useEffect, useCallback } from 'react';
 
 export const useLocalStorage = <T>(

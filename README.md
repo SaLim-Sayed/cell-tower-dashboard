@@ -295,5 +295,3 @@ For questions, issues, or contributions:
 - Production-ready build system
 
 ---
-
-**Built with ❤️ for telecom professionals**
