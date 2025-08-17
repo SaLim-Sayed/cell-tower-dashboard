@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useResponsive } from '../../../hooks/useResponsive';
+import { useMediaQuery } from 'react-responsive';
 import type { ChartDimensions, CityCount } from '../../../types/dashboard';
 import type { IBarChartProps } from '../@types';
 import './BarChart.scss';
@@ -23,7 +23,7 @@ const BarChart: React.FC<IBarChartProps> = memo(({
   const isInitialized = useRef(false);
   const animationInProgress = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { isMobile } = useResponsive();
+  const  isMobile  = useMediaQuery({ query: '(max-width: 768px)' });
   
   // Memoize dimensions to prevent unnecessary recalculations
   const chartDimensions = useMemo(() => {
@@ -31,18 +31,18 @@ const BarChart: React.FC<IBarChartProps> = memo(({
       width: isMobile ? 300 : 500,
       height: isMobile ? 280 : 350,
       margin: {
-        top: 30,
-        right: 30,
-        bottom: isMobile ? 80 : 60,
-        left: isMobile ? 50 : 70
+        top: isMobile ? 20 : 30,
+        right: isMobile ? 20 : 30,
+        bottom: isMobile ? 100 : 60,
+        left: isMobile ? 60 : 70
       }
     };
     return { ...defaultDimensions, ...dimensions };
   }, [dimensions, isMobile]);
 
   const { width, height, margin } = chartDimensions;
-  const innerWidth = isMobile ? 200 : width - margin.left - margin.right;
-  const innerHeight = isMobile ? 200 : height - margin.top - margin.bottom;
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
 
   // Memoize processed data to prevent unnecessary recalculations
   const processedData = useMemo(() => {
@@ -197,6 +197,9 @@ const BarChart: React.FC<IBarChartProps> = memo(({
           .style('opacity', 0.6);
       }
 
+      // Ensure tooltip exists before using it
+      const tooltip = ensureTooltip();
+
       // Create bars with enhanced interactions
       const barsGroup = chartGroup
         .append('g')
@@ -213,8 +216,8 @@ const BarChart: React.FC<IBarChartProps> = memo(({
         .attr('y', isInitialized.current ? d => yScale(d.count) : innerHeight)
         .attr('height', isInitialized.current ? d => innerHeight - yScale(d.count) : 0)
         .attr('fill', (d, i) => getBarColor(d, i))
-        .attr('rx', 6)
-        .attr('ry', 6)
+        .attr('rx', isMobile ? 3 : 6)
+        .attr('ry', isMobile ? 3 : 6)
         .style('cursor', 'pointer')
         .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .on('mouseover', function(event, d) {
@@ -235,13 +238,13 @@ const BarChart: React.FC<IBarChartProps> = memo(({
           currentTooltip
             .html(`
               <div class="bar-chart__tooltip-content">
-                <div class="tooltip-title">${d.city}</div>
-                <div class="tooltip-value">${d.count} ${d.count === 1 ? 'tower' : 'towers'}</div>
-                <div class="tooltip-percentage">${((d.count / processedData.reduce((sum, item) => sum + item.count, 0)) * 100).toFixed(1)}% of total</div>
+                <div class="tooltip-title" style="font-weight: 600; margin-bottom: 4px;">${d.city}</div>
+                <div class="tooltip-value" style="margin-bottom: 2px;">${d.count} ${d.count === 1 ? 'tower' : 'towers'}</div>
+                <div class="tooltip-percentage" style="font-size: 11px; opacity: 0.8;">${((d.count / processedData.reduce((sum, item) => sum + item.count, 0)) * 100).toFixed(1)}% of total</div>
               </div>
             `)
-            .style('left', `${event.pageX + 15}px`)
-            .style('top', `${event.pageY - 10}px`);
+            .style('left', `${Math.min(event.pageX + 15, window.innerWidth - 150)}px`)
+            .style('top', `${Math.max(event.pageY - 10, 10)}px`);
 
           // Highlight corresponding x-axis label
           chartGroup
@@ -257,8 +260,8 @@ const BarChart: React.FC<IBarChartProps> = memo(({
         .on('mousemove', (event) => {
           const currentTooltip = ensureTooltip();
           currentTooltip
-            .style('left', `${event.pageX + 15}px`)
-            .style('top', `${event.pageY - 10}px`);
+            .style('left', `${Math.min(event.pageX + 15, window.innerWidth - 150)}px`)
+            .style('top', `${Math.max(event.pageY - 10, 10)}px`);
         })
         .on('mouseout', function() {
           // Reset bar
@@ -349,16 +352,22 @@ const BarChart: React.FC<IBarChartProps> = memo(({
         .attr('transform', `translate(0,${innerHeight})`)
         .call(xAxis);
 
-      // Style x-axis text
+      // Style x-axis text with better mobile handling
       xAxisGroup
         .selectAll('text')
         .style('text-anchor', isMobile ? 'end' : 'middle')
-        .style('font-size', isMobile ? '10px' : '12px')
+        .style('font-size', isMobile ? '9px' : '12px')
         .style('font-weight', '400')
         .style('fill', '#6b7280')
         .attr('dx', isMobile ? '-.8em' : '0')
         .attr('dy', isMobile ? '.15em' : '.71em')
-        .attr('transform', isMobile ? 'rotate(-45)' : 'rotate(0)');
+        .attr('transform', isMobile ? 'rotate(-45)' : 'rotate(0)')
+        .each(function(d) {
+          // Truncate long city names on mobile
+          if (isMobile && d.length > 8) {
+            d3.select(this).text(d.substring(0, 8) + '...');
+          }
+        });
 
       
       // Create enhanced Y axis
@@ -367,7 +376,6 @@ const BarChart: React.FC<IBarChartProps> = memo(({
         .tickSize(0)
         .tickPadding(10)
         .tickFormat(d => {
-          //@ts-ignore
           if (d >= 1000) return `${(d / 1000).toFixed(1)}k`;
           return d.toString();
         });
@@ -383,19 +391,21 @@ const BarChart: React.FC<IBarChartProps> = memo(({
         .style('font-weight', '400')
         .style('fill', '#6b7280');
 
-      // Add Y axis label with better positioning
-      chartGroup
-        .append('text')
-        .attr('class', 'bar-chart__y-label')
-        .attr('transform', 'rotate(-90)')
-        .attr('y', -margin.left + 15)
-        .attr('x', -innerHeight / 2)
-        .attr('dy', '1em')
-        .style('text-anchor', 'middle')
-        .style('font-size', '12px')
-        .style('font-weight', '500')
-        .style('fill', '#6b7280')
-        .text('Number of Towers');
+      // Add Y axis label with better positioning (hide on very small screens)
+      if (!isMobile || innerWidth > 200) {
+        chartGroup
+          .append('text')
+          .attr('class', 'bar-chart__y-label')
+          .attr('transform', 'rotate(-90)')
+          .attr('y', -margin.left + 15)
+          .attr('x', -innerHeight / 2)
+          .attr('dy', '1em')
+          .style('text-anchor', 'middle')
+          .style('font-size', isMobile ? '10px' : '12px')
+          .style('font-weight', '500')
+          .style('fill', '#6b7280')
+          .text(isMobile ? 'Towers' : 'Number of Towers');
+      }
 
       // Add chart title if there's space
       if (!isMobile && margin.top > 25) {
@@ -465,7 +475,7 @@ const BarChart: React.FC<IBarChartProps> = memo(({
   }
 
   return (
-    <div className={`bar-chart ${className}`} data-testid={testId}>
+    <div className={`bar-chart ${className} ${isMobile ? 'bar-chart--mobile' : ''}`} data-testid={testId}>
       {isLoading && !isInitialized.current && (
         <div className="bar-chart__loading">
           <div className="spinner"></div>
@@ -479,7 +489,13 @@ const BarChart: React.FC<IBarChartProps> = memo(({
         className="bar-chart__svg"
         role="img"
         aria-label="Bar chart showing tower count by city"
-        style={{ opacity: isLoading && !isInitialized.current ? 0.3 : 1 }}
+        style={{ 
+          opacity: isLoading && !isInitialized.current ? 0.3 : 1,
+          maxWidth: '100%',
+          height: 'auto'
+        }}
+        viewBox={isMobile ? `0 0 ${width} ${height}` : undefined}
+        preserveAspectRatio={isMobile ? "xMidYMid meet" : undefined}
       >
         <desc>
           Bar chart displaying the number of cell towers in each city: {
