@@ -81,8 +81,8 @@ const SmFilters: React.FC<SmFiltersProps> = ({
         <div className="bottom-sheet-overlay" onClick={() => setBottomSheetOpen(false)}>
           <div className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
             <div className="bottom-sheet-header">
-              <h3>{activeTab === "filters" ? "Filters" : "Sort"}</h3>
-              <button className="close-btn" onClick={() => setBottomSheetOpen(false)}>
+              <h3 style={{color:"#000"}}>{activeTab === "filters" ? "Filters" : "Sort"}</h3>
+              <button className="close-btn" style={{color:"#000"}} onClick={() => setBottomSheetOpen(false)}>
                 ×
               </button>
             </div>
@@ -131,6 +131,7 @@ const SmFilters: React.FC<SmFiltersProps> = ({
 
                   <button
                     className="clear-filters"
+                    style={{color:"#000"}}
                     onClick={handleClearAll}
                     disabled={!filters.searchTerm && !filters.selectedCity && !sortConfig}
                   >

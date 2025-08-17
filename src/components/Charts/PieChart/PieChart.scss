@@ -106,7 +106,7 @@
   &__tooltip {
     position: absolute;
     background-color: rgba(map.get($colors, text-primary), 0.95);
-    color: map.get($colors, text-inverse);
+    color: #fff;
     padding: map.get($spacing, 2) map.get($spacing, 3);
     border-radius: map.get($border-radius, md);
     font-size: map.get($font-sizes, sm);
@@ -131,7 +131,7 @@
   &__tooltip-content {
     text-align: center;
     line-height: map.get($line-heights, tight);
-    color:#000;
+    color:#fff;
     
     strong {
       display: block;

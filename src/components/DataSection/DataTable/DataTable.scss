@@ -202,13 +202,14 @@
       white-space: nowrap;
     }
 
-    button {
+    &__button {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
       background-color: #ffffff;
       border: 1px solid #e2e8f0;
+      color:#000;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.2s;
@@ -251,7 +252,15 @@
       animation: spin 1s linear infinite;
     }
   }
+  
+  &__card-label {
+    color:#000;
+  }
 
+  &__card-value {
+    color:#000;
+  }
+  
   @keyframes spin {
     to {
       transform: rotate(360deg);
@@ -288,6 +297,12 @@
       font-size: 0.875rem;
       color:#000;
     }
+    &__card-label {
+      color:#000;
+    }
+    &__card-value {
+      color:#000;
+    }
 
     th {
       font-size: 0.7rem;
@@ -307,7 +322,12 @@
       font-size: 0.8rem;
       color:#000;
     }
-
+    &__card-label {
+      color:#000;
+    }
+    &__card-value {
+      color:#000;
+    }
     th {
       font-size: 0.65rem;
       color:#000;
@@ -316,12 +336,14 @@
     .select-column, .select-cell {
       width: 35px;
       padding: 0 0.25rem;
+      color:#000;
     }
 
     .pagination {
       flex-direction: column;
       gap: 0.75rem;
       padding: 0.75rem;
+      color:#000;
 
       &__info {
         order: -1;
@@ -351,12 +373,14 @@
       &-label {
         font-size: 0.8rem;
         min-width: auto;
+        color:#000;
       }
 
       &-value {
         font-size: 0.875rem;
         text-align: left;
         width: 100%;
+        color:#000;
       }
     }
   }
@@ -366,6 +390,7 @@
     th, td {
       padding: 0.375rem 0.25rem;
       font-size: 0.75rem;
+      color:#000;
     }
 
     .table-container {
@@ -389,7 +414,7 @@
 
     .pagination {
       padding: 0.5rem;
-      
+      color:#000;      
       button {
         padding: 0.4rem 0.8rem;
         font-size: 0.8rem;
@@ -423,4 +448,10 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+.data-table__card-label {
+  color:#000;
+}
+.data-table__card-value {
+  color:#000;
 }

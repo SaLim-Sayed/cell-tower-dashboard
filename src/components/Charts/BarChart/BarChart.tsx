@@ -197,9 +197,7 @@ const BarChart: React.FC<IBarChartProps> = memo(({
           .style('opacity', 0.6);
       }
 
-      // Ensure tooltip exists before using it
-      const tooltip = ensureTooltip();
-
+  
       // Create bars with enhanced interactions
       const barsGroup = chartGroup
         .append('g')
@@ -344,13 +342,14 @@ const BarChart: React.FC<IBarChartProps> = memo(({
       // Create enhanced X axis
       const xAxis = d3.axisBottom(xScale)
         .tickSize(0)
-        .tickPadding(10);
+        .tickPadding(10)
 
       const xAxisGroup = chartGroup
         .append('g')
         .attr('class', 'bar-chart__x-axis')
         .attr('transform', `translate(0,${innerHeight})`)
         .call(xAxis);
+
 
       // Style x-axis text with better mobile handling
       xAxisGroup

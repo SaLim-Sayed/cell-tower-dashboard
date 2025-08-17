@@ -268,6 +268,7 @@ const DataTable = <T extends Record<string, any>>({
                     <td className="select-cell">
                       <input
                         type="checkbox"
+                        
                         checked={selectedRows.has(row[keyField])}
                         onChange={(e) => handleRowSelect(e, row)}
                         onClick={(e) => e.stopPropagation()}
@@ -278,7 +279,7 @@ const DataTable = <T extends Record<string, any>>({
                   {visibleColumns.map((column) => (
                     <td
                       key={`${row[keyField]}-${column.header}`}
-                      style={{ textAlign: column.align || 'left' }}
+                      style={{ textAlign: column.align || 'left' ,color:'#000'}}
                     >
                       {renderCellContent(row, column)}
                     </td>
@@ -307,6 +308,7 @@ const DataTable = <T extends Record<string, any>>({
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
+            style={{color:'#000'}}
           >
             Next <FaArrowRight />
           </button>

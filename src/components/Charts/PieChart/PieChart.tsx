@@ -99,7 +99,7 @@ const PieChart: React.FC<IPieChartProps> = memo(
           tooltip
             .html(
               `<div class="pie-chart__tooltip-content">
-                <strong>${d.data.status === "active" ? "Active" : "Offline"}</strong><br/>
+                <strong style={{color:"#000"}}>${d.data.status === "active" ? "Active" : "Offline"}</strong><br/>
                 ${d.data.count} towers (${d.data.percentage}%)
               </div>`
             )
@@ -291,7 +291,7 @@ const PieChart: React.FC<IPieChartProps> = memo(
         .attr("y", 6)
         .attr("dy", "0.35em")
         .style("font-size", "12px")
-        .style("fill", "currentColor")
+        .style("fill", "#000")
         .text((d) => (d.status === "active" ? "Active" : "Offline"));
 
       // Cleanup function
