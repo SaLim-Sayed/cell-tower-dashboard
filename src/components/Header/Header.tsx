@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = memo(({
           <div data-testid="header-brand" className="header__brand">
             <div data-testid="header-logo" className="header__logo">
               {/* svg logo */}
-              <img role="img" src={'public/antenna.svg'} alt="" />
+              <img role="img" src={'public/antenna.png'} alt="" width={50} height={50} />
             </div>
             <h1 className="header__title">{title}</h1>
           </div>
