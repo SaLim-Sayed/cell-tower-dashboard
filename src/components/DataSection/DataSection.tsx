@@ -49,6 +49,9 @@ const DataSection: React.FC<DataSectionProps> = ({
         onFiltersChange={onFiltersChange}
         onClearFilters={onClearFilters}
         onRowClick={onRowClick}
+        onSelectionChange={onSelectionChange}
+        loading={loading}
+        columns={columns}
       />
     );
   }

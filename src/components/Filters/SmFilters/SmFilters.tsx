@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFilter, FaSort } from "react-icons/fa";
 import type { CellTower, FilterProps } from "../../../types";
 import "./SmFilters.scss";
@@ -27,7 +27,17 @@ const SmFilters: React.FC<SmFiltersProps> = ({
 }) => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"filters" | "sort">("filters");
+  const [showToggle, setShowToggle] = useState(false);
 
+  // Show toggle buttons when scrolling down
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowToggle(window.scrollY > 150); // show after 150px scroll
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     onFiltersChange.setSearchTerm(e.target.value);
  
@@ -43,26 +53,28 @@ const SmFilters: React.FC<SmFiltersProps> = ({
   return (
     <div>
       {/* Toggle Buttons */}
-      <div className="bottom-sheet-toggle">
-        <button
-          className="button"
-          onClick={() => {
-            setActiveTab("filters");
-            setBottomSheetOpen(true);
-          }}
-        >
-          Filters <FaFilter />
-        </button>
-        <button
-          className="button"
-          onClick={() => {
-            setActiveTab("sort");
-            setBottomSheetOpen(true);
-          }}
-        >
-          Sort <FaSort />
-        </button>
-      </div>
+      {showToggle && (
+        <div className="bottom-sheet-toggle">
+          <button
+            className="button"
+            onClick={() => {
+              setActiveTab("filters");
+              setBottomSheetOpen(true);
+            }}
+          >
+            Filters <FaFilter />
+          </button>
+          <button
+            className="button"
+            onClick={() => {
+              setActiveTab("sort");
+              setBottomSheetOpen(true);
+            }}
+          >
+            Sort <FaSort />
+          </button>
+        </div>
+      )}
 
       {/* Bottom Sheet */}
       {bottomSheetOpen && (
